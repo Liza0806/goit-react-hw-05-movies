@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+//import { Form, Link } from 'react-router-dom';
+import {FilmList, FilmItem, FilmLink} from "./Home.styled"
 
 const HomePage = () => {
     const [data, setData] = useState([]);
@@ -20,13 +21,15 @@ const HomePage = () => {
       })}, []);
 
       return (
-        <ul>
+        <FilmList>
           {data.map((film) => (
-            <Link key={film.id} to={`${film.id}`}className='list'>
-           {film.title ?? film.name}
-            </Link>
+            <FilmItem key={film.id}>
+              <FilmLink to={`${film.id}`} className='list'>
+                {film.title ?? film.name}
+              </FilmLink>
+            </FilmItem>
           ))}
-        </ul>
+        </FilmList>
       );
     };
 

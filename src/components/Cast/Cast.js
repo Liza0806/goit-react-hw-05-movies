@@ -1,6 +1,9 @@
 import { useParams } from "react-router-dom"
 import { useState, useEffect } from "react";
 import axios from "axios";
+import {CastList,  CastCard} from "./Cast.styled";
+import { CiImageOn } from 'react-icons/ci'
+
 
 
 const Cast = () => {
@@ -34,17 +37,18 @@ const Cast = () => {
         return <div>Loading...</div>;
       }
       console.log(castData)
-    return (
-        castData.map(person => {
+    return ( <CastList>
+        {castData.map(person => {
             return(
+              <CastCard>
                 <div key={person.id}>
-                <h1>{person.character}</h1>
-                <p>{person.name}</p>
-             
-              </div>
+                <h1>{person.name}</h1>
+                <p>{person.character}</p>
+               { person.profile_path? <img src={`https://image.tmdb.org/t/p/w500${person.profile_path}`} ></img> : <CiImageOn style={{ opacity:'0.5',width: '100px', height: '150px',margin: '10px auto'}}/>}
+              </div></CastCard>
             )
-        })
-       
+        })}
+       </CastList>
       );
 }
 

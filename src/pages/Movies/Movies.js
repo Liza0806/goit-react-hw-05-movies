@@ -1,18 +1,27 @@
 import { Link, useSearchParams} from "react-router-dom"
 import { useState, useEffect } from "react";
 import axios from "axios";
+import {SearchContainer, SearchInput, SearchResultList, SearchResultItem} from './Movies.styled'
 
 
 const Movies =() => {
-
-   const [movieData, setMovieData] = useState(null);
- const [searchParams, setSearchParams] = useSearchParams()
-const movieTitle = searchParams.get("movieTitle")
+const [movieData, setMovieData] = useState("");
+const [searchParams, setSearchParams] = useSearchParams()
+const movieTitle = searchParams.get("movieTitle") ?? ""
 console.log(movieTitle)
 
+const UpdateQueryString = (evt) =>{
+  const movieTitleValue = evt.target.value;
+  if(movieTitleValue === ""){
+    return setSearchParams({})
+  }
+  
+  setSearchParams({movieTitle: movieTitleValue})
+
+}
     useEffect(() => {
         const fetchData = async () => {
-                  try {  
+               try {  
     const response = await axios.get(`
        https://api.themoviedb.org/3/search/movie?query=${movieTitle}`, 
        {
@@ -34,14 +43,15 @@ console.log(movieTitle)
 
 
     return (
-        <div>     
-        <input type="text" onChange={evt=> setSearchParams({movieTitle: evt.target.value})}></input>
-
+        <SearchContainer>     
+        <SearchInput type="text" onChange={UpdateQueryString}></SearchInput>
+<SearchResultList>
         {movieData && movieData.map((film) => (
-      <Link to={`/${film.id}`} key={film.id}>{film.title}</Link>
+     
+      <SearchResultItem key={film.id}><Link to={`/${film.id}`} key={film.id}>{film.title}</Link></SearchResultItem>
     ))}
-
-</div>
+</SearchResultList>
+</SearchContainer>
     )
 }
 export default Movies

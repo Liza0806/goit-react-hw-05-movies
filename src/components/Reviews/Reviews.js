@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom"
 import { useState, useEffect } from "react";
 import axios from "axios";
-
+import { ReviewContainer, Author, Content, NoReviews } from './Reviews.styled'
 
 const Reviews = () => {
     const {movieId} = useParams();
@@ -33,18 +33,21 @@ const Reviews = () => {
      
         return <div>Loading...</div>;
       }
+
       console.log(reviewsData)
-    return (
-        reviewsData.map(review => {
-            // console.log(review.id)
-            return(
-                <div key={review.id}>
-               {review.author}
-             
-              </div>
-            )
-        })
-       
+      return (
+        <div>
+          {reviewsData.length === 0 ? (
+            <NoReviews>No reviews</NoReviews>
+          ) : (
+            reviewsData.map((review) => (
+              <ReviewContainer key={review.id}>
+                <Author>{review.author}</Author>
+                <Content>{review.content}</Content>
+              </ReviewContainer>
+            ))
+          )}
+        </div>
       );
 }
 

@@ -1,11 +1,11 @@
 
 import { NavLink, Outlet } from "react-router-dom"
-
+import { Header, Nav, Main, Footer } from "./Layout.styled"
 const Layout = () => {
      return ( 
      <div>
-        <header>
-     <nav>
+        <Header>
+     <Nav>
         <ul>
           <li>
         <NavLink to="/">Home</NavLink>
@@ -14,10 +14,10 @@ const Layout = () => {
         <NavLink to="/movies">Movies (keyWord)</NavLink>
         </li>
         </ul>
-      </nav></header>
-      <main>
-      <Outlet/></main>
-      <footer>Footer</footer>
+      </Nav></Header>
+      <Main>
+      <Outlet/></Main>
+      <Footer>Footer</Footer>
       </div>
       )
 }

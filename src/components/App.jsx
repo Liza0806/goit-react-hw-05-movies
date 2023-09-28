@@ -1,11 +1,11 @@
 import { Route, Routes } from "react-router-dom";
 
-import HomePage from "pages/Home";
-import Movies from "pages/Movies";
-import MovieDetails from "pages/MovieDetails";
-import Layout from "./Layout";
-import Cast from "./Cast";
-import Reviews from "./Reviews";
+import HomePage from "pages/Home/Home";
+import Movies from "pages/Movies/Movies";
+import MovieDetails from "pages/MovieDetails/MovieDetails";
+import Layout from "./Layout/Layout";
+import Cast from "./Cast/Cast";
+import Reviews from "./Reviews/Reviews";
 
 export const App = () => {
 
@@ -15,8 +15,10 @@ export const App = () => {
   return (
     <div
       style={{
-      //  height: '50vh',
-        display: 'flex',
+     height: '100vh',
+    // display: 'flex',
+     margin: '0',
+     padding:'0',
         justifyContent: 'center',
         alignItems: 'center',
       //  fontSize: 40,
