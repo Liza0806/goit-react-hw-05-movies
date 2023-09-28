@@ -33,7 +33,6 @@ const Cast = () => {
 
 
       if (!castData) {
-     
         return <div>Loading...</div>;
       }
       console.log(castData)
@@ -44,7 +43,7 @@ const Cast = () => {
                 <div key={person.id}>
                 <h1>{person.name}</h1>
                 <p>{person.character}</p>
-               { person.profile_path? <img src={`https://image.tmdb.org/t/p/w500${person.profile_path}`} ></img> : <CiImageOn style={{ opacity:'0.5',width: '100px', height: '150px',margin: '10px auto'}}/>}
+               { person.profile_path? <img src={`https://image.tmdb.org/t/p/w500${person.profile_path}`} alt={person.name} ></img> : <CiImageOn style={{ opacity:'0.5',width: '100px', height: '150px',margin: '10px auto'}}/>}
               </div></CastCard>
             )
         })}
