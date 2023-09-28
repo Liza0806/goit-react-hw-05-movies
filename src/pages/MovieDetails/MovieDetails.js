@@ -1,4 +1,4 @@
-import { Link, Outlet, useParams } from "react-router-dom"
+import { Outlet, useParams } from "react-router-dom"
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { FcCamcorderPro } from 'react-icons/fc';
@@ -14,7 +14,6 @@ import {
   Bold,
   MainImg,
   ForLinks,
-  BottomContainer,
   ProductionCompanyList,
   ProductionCompanyCard
 } from "./MovieDetails.styled"
