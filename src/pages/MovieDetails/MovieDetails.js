@@ -1,7 +1,8 @@
-import { Outlet, useParams } from "react-router-dom"
-import { useState, useEffect } from "react";
+import { Outlet, useParams, useLocation } from "react-router-dom"
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { FcCamcorderPro } from 'react-icons/fc';
+import { ColorRing } from  'react-loader-spinner';
 import {
   DetailsContainer, 
   ContentContainer, 
@@ -23,9 +24,11 @@ import {
 const MovieDetails = () => {
 
     const {movieId} = useParams();
-  
+    const location = useLocation();
     const [movieData, setMovieData] = useState(null);
- 
+    const backLinkLocationRef = useRef(location.state?.from ?? '/movies');
+
+   // console.log(location)
     useEffect(() => {
         const fetchData = async () => {
                   try {  
@@ -50,9 +53,19 @@ const MovieDetails = () => {
 
       if (!movieData) {
      
-        return <div>Loading...</div>;
+        return <div> 
+          <ColorRing
+        visible={true}
+        height="80"
+        width="80"
+        ariaLabel="blocks-loading"
+        wrapperStyle={{}}
+        wrapperClass="blocks-wrapper"
+        colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
+      />
+      </div>;
       }
-     console.log(movieData)
+     // console.log(movieData)
 
 
    
@@ -97,7 +110,7 @@ const MovieDetails = () => {
       <div>
       <ForLinks><BackLink to="cast">Cast</BackLink>
         <BackLink to="reviews">Reviews</BackLink>
-        <BackLink to="/">Back</BackLink></ForLinks>
+        <BackLink to={backLinkLocationRef.current}>Back</BackLink></ForLinks>
       </div>
       <Outlet />
     </div>

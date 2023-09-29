@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import {CastList,  CastCard} from "./Cast.styled";
 import { CiImageOn } from 'react-icons/ci'
+import { ColorRing } from  'react-loader-spinner'
 
 
 
@@ -21,7 +22,7 @@ const Cast = () => {
          Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzZmQwOGNhMTljY2JmM2U1MjgwN2ViZmVjZDEwOGUzNiIsInN1YiI6IjY1MTJiYjFkYTkxMTdmNzY1ZDg4OTgxNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.wk5fdIqZPgG2xDOolV97Xo9axot0ymipWFnQCS9z3XQ' 
         },
       });  
-      console.log(response.data.cast)
+    //  console.log(response.data.cast)
       setCastData(response.data.cast); 
     } catch (error) {
                console.error('Error:', error);
@@ -32,14 +33,26 @@ const Cast = () => {
       }, [movieId]);
 
 
-      if (!castData) {
-        return <div>Loading...</div>;
+      if (!castData) { 
+        return <div style={{margin: 'auto',
+        display:'block'}}>
+        <ColorRing
+        visible={true}
+        height="180"
+        width="180"
+        ariaLabel="blocks-loading"
+        wrapperStyle={{}}
+        wrapperClass="blocks-wrapper"
+        colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
+      />
+      
+      </div>;
       }
-      console.log(castData)
+     // console.log(castData)
     return ( <CastList>
         {castData.map(person => {
             return(
-              <CastCard>
+              <CastCard key={person.id}>
                 <div key={person.id}>
                 <h1>{person.name}</h1>
                 <p>{person.character}</p>

@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom"
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { ReviewContainer, Author, Content, NoReviews } from './Reviews.styled'
+import { ColorRing } from  'react-loader-spinner'
 
 const Reviews = () => {
     const {movieId} = useParams();
@@ -31,7 +32,17 @@ const Reviews = () => {
 
       if (!reviewsData) {
      
-        return <div>Loading...</div>;
+        return <div>
+            <ColorRing
+        visible={true}
+        height="180"
+        width="180"
+        ariaLabel="blocks-loading"
+        wrapperStyle={{}}
+        wrapperClass="blocks-wrapper"
+        colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
+      />
+        </div>;
       }
 
       console.log(reviewsData)
