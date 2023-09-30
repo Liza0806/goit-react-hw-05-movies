@@ -54,10 +54,16 @@ export const Main = styled.main`
 `;
 
 export const Footer = styled.footer`
-  background-color: #333;
-  color: white;
-  text-align: center;
-  padding: 10px 0;
+background-color: #333;
+height: 80px;
+width: 100%;
+padding: 0 40px;
+
+align-items: center;
+justify-content: space-between;
+
+color: white;
+display: flex;
 `;
 
 
