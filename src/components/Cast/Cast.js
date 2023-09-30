@@ -1,67 +1,58 @@
 import { useParams } from "react-router-dom"
 import { useState, useEffect } from "react";
-import axios from "axios";
 import {CastList,  CastCard} from "./Cast.styled";
 import { CiImageOn } from 'react-icons/ci'
-import { ColorRing } from  'react-loader-spinner'
-
+import { fetchData } from "Helpers/Helpers";
+import { LoadingSpinner } from "Helpers/Helpers";
 
 
 const Cast = () => {
     const {movieId} = useParams();
-  
     const [castData, setCastData] = useState(null);
+
     useEffect(() => {
-        const fetchCastData = async () => {
-                  try {  
-    const response = await axios.get(`
-       https://api.themoviedb.org/3/movie/${movieId}/credits?`, 
-       {
-        headers: {
-        Accept: 'application/json',
-         Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzZmQwOGNhMTljY2JmM2U1MjgwN2ViZmVjZDEwOGUzNiIsInN1YiI6IjY1MTJiYjFkYTkxMTdmNzY1ZDg4OTgxNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.wk5fdIqZPgG2xDOolV97Xo9axot0ymipWFnQCS9z3XQ' 
-        },
-      });  
-    //  console.log(response.data.cast)
-      setCastData(response.data.cast); 
-    } catch (error) {
-               console.error('Error:', error);
-             }}
-
+      const url = `
+        https://api.themoviedb.org/3/movie/${movieId}/credits?`;
+  
+      const fetchCastData = async () => {
+        const data = await fetchData(url);
+        if (data) {
+          setCastData(data.cast);
+        }
+      };
+  
       fetchCastData();
-       
-      }, [movieId]);
-
+    }, [movieId]);
 
       if (!castData) { 
-        return <div style={{margin: 'auto',
-        display:'block'}}>
-        <ColorRing
-        visible={true}
-        height="180"
-        width="180"
-        ariaLabel="blocks-loading"
-        wrapperStyle={{}}
-        wrapperClass="blocks-wrapper"
-        colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
-      />
-      
-      </div>;
+        return <LoadingSpinner/>
       }
+
      // console.log(castData)
-    return ( <CastList>
-        {castData.map(person => {
-            return(
+    
+     return (
+      <div>
+        {castData.length > 0 ? (
+          <CastList>
+            {castData.map(person => (
               <CastCard key={person.id}>
                 <div key={person.id}>
-                <h1>{person.name}</h1>
-                <p>{person.character}</p>
-               { person.profile_path? <img src={`https://image.tmdb.org/t/p/w500${person.profile_path}`} alt={person.name} ></img> : <CiImageOn style={{ opacity:'0.5',width: '100px', height: '150px',margin: '10px auto'}}/>}
-              </div></CastCard>
-            )
-        })}
-       </CastList>
-      );
-}
+                  <h1>{person.name}</h1>
+                  <p>{person.character}</p>
+                  {person.profile_path ? (
+                    <img src={`https://image.tmdb.org/t/p/w500${person.profile_path}`} alt={person.name} />
+                  ) : (
+                    <CiImageOn style={{ opacity: '0.5', width: '100px', height: '150px', margin: '10px auto' }} />
+                  )}
+                </div>
+              </CastCard>
+            ))}
+          </CastList>
+        ) : (
+          <div>No cast available</div>
+        )}
+      </div>
+    );
+  };
 
 export default Cast

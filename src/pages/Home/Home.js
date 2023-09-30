@@ -1,50 +1,50 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-//import { Form, Link } from 'react-router-dom';
 import {FilmList, FilmItem, FilmLink} from "./Home.styled"
 import { useLocation } from 'react-router-dom';
-import { ColorRing } from  'react-loader-spinner'
+import { fetchData } from 'Helpers/Helpers';
+import { LoadingSpinner } from 'Helpers/Helpers';
+import { FcCamcorderPro } from 'react-icons/fc';
+import Popup from 'reactjs-popup';
 
 const HomePage = () => {
     const [data, setData] = useState([]);
     const location = useLocation(); 
-    useEffect(() => { axios
-      .get(`https://api.themoviedb.org/3/trending/all/day?language=en-US`, {
-        headers: {
-        Accept: 'application/json',
-         Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzZmQwOGNhMTljY2JmM2U1MjgwN2ViZmVjZDEwOGUzNiIsInN1YiI6IjY1MTJiYjFkYTkxMTdmNzY1ZDg4OTgxNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.wk5fdIqZPgG2xDOolV97Xo9axot0ymipWFnQCS9z3XQ'
-          
-        },
-      })
-      .then((response) => {
-        const responseData = response.data.results;
-        setData(responseData);
- // console.log(responseData)
-       
-      })}, []);
+
+useEffect(() => {
+  const url = `
+  https://api.themoviedb.org/3/trending/all/day?language=en-US`;
+
+  const fetchHomeData = async () => {
+    const data = await fetchData(url);
+    if (data) {
+      const responseData = data.results;
+      setData(responseData); 
+    }
+  };
+
+  fetchHomeData();
+}, []);
 
       if (!data) {
-     
-        return <div>
-            <ColorRing
-        visible={true}
-        height="180"
-        width="180"
-        ariaLabel="blocks-loading"
-        wrapperStyle={{}}
-        wrapperClass="blocks-wrapper"
-        colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
-      />
-        </div>;
+        return <LoadingSpinner/>
       }
 
       return (
         <FilmList>
           {data.map((film) => (
             <FilmItem key={film.id}>
-              <FilmLink to={`${film.id}`} state ={{ from: location}} className='list'>
-                {film.title ?? film.name}
-              </FilmLink>
+               <Popup
+            trigger={ open => (
+              <FilmLink to={`${film.id}`} state={{ from: location }} className='list'>  {film.title ?? film.name}</FilmLink>
+            )}
+            position="right center"
+            on={['hover', 'focus']}
+            closeOnDocumentClick
+          >
+              <span> {film.poster_path? (<img src={`https://image.tmdb.org/t/p/w500${film.poster_path}`} alt="Tooltip Image" width={"200"}/>): (
+  <FcCamcorderPro style={{ width: '100px', height: '100px' }} />
+)}</span>
+          </Popup>   
             </FilmItem>
           ))}
         </FilmList>

@@ -2,7 +2,7 @@
 import { Suspense } from "react"
 import { NavLink, Outlet } from "react-router-dom"
 import { Header, Nav, Main, Footer } from "./Layout.styled"
-import { ColorRing } from  'react-loader-spinner'
+import { LoadingSpinner } from "Helpers/Helpers"
 
 const Layout = () => {
      return ( 
@@ -11,24 +11,16 @@ const Layout = () => {
      <Nav>
         <ul>
           <li>
-        <NavLink to="/">Home</NavLink>
+        <NavLink to="/" activeclassname="active">Home</NavLink>
         </li>
         <li>
-        <NavLink to="/movies">Movies (keyWord)</NavLink>
+        <NavLink to="/movies"  activeclassname="active-movies">Movies (keyWord)</NavLink>
         </li>
         </ul>
       </Nav></Header>
       <Main>
         <Suspense fallback = {<div>  
-          <ColorRing
-        visible={true}
-        height="180"
-        width="180"
-        ariaLabel="blocks-loading"
-        wrapperStyle={{}}
-        wrapperClass="blocks-wrapper"
-        colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
-      /></div>}>
+         <LoadingSpinner/></div>}>
       <Outlet/>
       </Suspense>
       </Main>

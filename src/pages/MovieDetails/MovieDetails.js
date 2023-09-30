@@ -1,8 +1,9 @@
 import { Outlet, useParams, useLocation } from "react-router-dom"
 import { useState, useEffect, useRef } from "react";
-import axios from "axios";
 import { FcCamcorderPro } from 'react-icons/fc';
-import { ColorRing } from  'react-loader-spinner';
+import { fetchData } from "Helpers/Helpers";
+import { LoadingSpinner } from "Helpers/Helpers";
+import { CiImageOn } from 'react-icons/ci'
 import {
   DetailsContainer, 
   ContentContainer, 
@@ -10,7 +11,6 @@ import {
   UserScore, 
   ReleaseDate, 
   Overview, GenresList, 
- 
   BackLink,
   Bold,
   MainImg,
@@ -19,8 +19,6 @@ import {
   ProductionCompanyCard
 } from "./MovieDetails.styled"
 
-// FcFilm
-
 const MovieDetails = () => {
 
     const {movieId} = useParams();
@@ -28,44 +26,25 @@ const MovieDetails = () => {
     const [movieData, setMovieData] = useState(null);
     const backLinkLocationRef = useRef(location.state?.from ?? '/movies');
 
-   // console.log(location)
-    useEffect(() => {
-        const fetchData = async () => {
-                  try {  
-    const response = await axios.get(`
-       https://api.themoviedb.org/3/movie/${movieId}`, 
-       {
-        headers: {
-        Accept: 'application/json',
-         Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzZmQwOGNhMTljY2JmM2U1MjgwN2ViZmVjZDEwOGUzNiIsInN1YiI6IjY1MTJiYjFkYTkxMTdmNzY1ZDg4OTgxNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.wk5fdIqZPgG2xDOolV97Xo9axot0ymipWFnQCS9z3XQ' 
-        },
-      });  
-      setMovieData(response.data); 
-      
-    } catch (error) {
-               console.error('Error:', error);
-             }}
 
-      fetchData();
-       
-      }, [movieId]);
+    useEffect(() => {
+      const url = `
+      https://api.themoviedb.org/3/movie/${movieId}`; 
+    
+      const fetchMDData = async () => {
+        const data = await fetchData(url);
+        if (data) {
+          setMovieData(data);  
+        }
+      };
+    
+      fetchMDData();
+    }, [movieId]);
 
 
       if (!movieData) {
-     
-        return <div> 
-          <ColorRing
-        visible={true}
-        height="80"
-        width="80"
-        ariaLabel="blocks-loading"
-        wrapperStyle={{}}
-        wrapperClass="blocks-wrapper"
-        colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
-      />
-      </div>;
+        return <LoadingSpinner/>
       }
-     // console.log(movieData)
 
 
    
@@ -79,8 +58,12 @@ const MovieDetails = () => {
           <Overview><Bold>Overview:</Bold> {movieData.overview}</Overview>
         </ContentContainer>
         <div>
-          <MainImg src={`https://image.tmdb.org/t/p/w500${movieData.poster_path}`} alt={movieData.title} />
-        </div>
+  {movieData.poster_path ? (
+    <MainImg src={`https://image.tmdb.org/t/p/w500${movieData.poster_path}`} alt={movieData.title} />
+  ) : (
+    <CiImageOn style={{ opacity: '0.5', width: '100px', height: '150px', margin: '10px auto' }} />
+  )}
+</div>
       </DetailsContainer>
        <GenresList>
            <Bold>Genres: </Bold> 
@@ -88,25 +71,30 @@ const MovieDetails = () => {
               <li key={gen.id}>{gen.name}</li>
             ))}
           </GenresList> 
+          
+          {movieData.production_companies.length > 0 ? (
+  <div>
+    <Bold>Production companies:</Bold>
+    <ProductionCompanyList>
+      {movieData.production_companies.map((prod) => (
+        <ProductionCompanyCard key={prod.id}>
           <div>
-          <Bold>Production companies:</Bold> 
-          <ProductionCompanyList>
-            {movieData.production_companies.map((prod) => (
-              <ProductionCompanyCard key={prod.id}>
-                <div>
-                  {prod.logo_path ? (
-                    <img
-                      src={`https://image.tmdb.org/t/p/original/${prod.logo_path}`}
-                      alt={prod.name}
-                    />
-                  ) : (
-                    <FcCamcorderPro style={{ width: '100px', height: '100px' }} />
-                  )}
-                </div>
-                <div>{prod.name}</div>
-              </ProductionCompanyCard>
-            ))}
-          </ProductionCompanyList></div>
+            {prod.logo_path ? (
+              <img
+                src={`https://image.tmdb.org/t/p/original/${prod.logo_path}`}
+                alt={prod.name}
+              />
+            ) : (
+              <FcCamcorderPro style={{ width: '100px', height: '100px' }} />
+            )}
+          </div>
+          <div>{prod.name}</div>
+        </ProductionCompanyCard>
+      ))}
+    </ProductionCompanyList>
+  </div>
+) : null}
+       
       <div>
       <ForLinks><BackLink to="cast">Cast</BackLink>
         <BackLink to="reviews">Reviews</BackLink>

@@ -31,9 +31,11 @@ export const Nav = styled.nav`
       a {
         text-decoration: none;
         color: #ff4500;
-       
+      
+        &.active {
+          font-weight: bold;
+        }
 
-       
 
         &:hover,
         &:focus {
