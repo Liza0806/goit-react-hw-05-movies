@@ -1,9 +1,4 @@
 import { Route, Routes } from "react-router-dom";
-
-//import HomePage from "pages/Home/Home";
-//import Movies from "pages/Movies/Movies";
-//import MovieDetails from "pages/MovieDetails/MovieDetails";
-
 import Layout from "./Layout/Layout";
 import Cast from "./Cast/Cast";
 import Reviews from "./Reviews/Reviews";
@@ -15,21 +10,15 @@ const Movies = lazy(() => import('../pages/Movies/Movies'))
 const MovieDetails = lazy(() => import('../pages/MovieDetails/MovieDetails'))
 
 export const App = () => {
-
-
-
-
   return (
     <div
       style={{
-     height: '100vh',
-    // display: 'flex',
-     margin: '0',
+     maxWidth: '1280px',
+     margin: 'auto',
      padding:'0',
-        justifyContent: 'center',
-        alignItems: 'center',
-      //  fontSize: 40,
-        color: '#010101'
+     justifyContent: 'center',
+     alignItems: 'center',
+     color: '#010101'
       }}
     > 
    

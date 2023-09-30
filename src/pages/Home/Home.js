@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {FilmList, FilmItem, FilmLink} from "./Home.styled"
+import {FilmList, FilmItem, FilmLink, MovieListTitle} from "./Home.styled"
 import { useLocation } from 'react-router-dom';
 import { fetchData } from 'Helpers/Helpers';
 import { LoadingSpinner } from 'Helpers/Helpers';
@@ -31,6 +31,7 @@ useEffect(() => {
 
       return (
         <FilmList>
+          <MovieListTitle>Trending Today</MovieListTitle>
           {data.map((film) => (
             <FilmItem key={film.id}>
                <Popup

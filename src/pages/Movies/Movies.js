@@ -70,7 +70,7 @@ const UpdateQueryString = (evt) =>{
                        transform: "translate(-50%, -50%)",
                        zIndex: 9999, 
                      }}> 
-    {film.poster_path? (<img src={`https://image.tmdb.org/t/p/w500${film.poster_path}`} alt={film.title} width={"200"}/>): (
+    {film.poster_path? (<img src={`https://image.tmdb.org/t/p/w500${film.poster_path}`} alt={film.title} width={"300"}/>): (
   <FcCamcorderPro style={{ width: '100px', height: '100px' }} />
 )}</span>
     </Popup>  </SearchResultItem>

@@ -3,18 +3,20 @@ import styled from "styled-components";
 
 export const Header = styled.header`
   background-color: #333;
-  height: 60px;
+  height: 80px;
   width: 100%;
+  padding: 0 40px;
 
   align-items: center;
   justify-content: space-between;
-  padding: 0 20px;
+ 
   color: white;
   display: flex;
 
 `;
 
 export const Nav = styled.nav`
+
   ul {
     list-style-type: none;
     padding: 0;
