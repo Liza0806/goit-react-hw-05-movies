@@ -64,7 +64,7 @@ const UpdateQueryString = (evt) =>{
       on={['hover', 'focus']}
       closeOnDocumentClick
     >
-      <span> {film.poster_path? (<img src={`https://image.tmdb.org/t/p/w500${film.poster_path}`} alt="Tooltip Image" width={"200"}/>): (
+      <span> {film.poster_path? (<img src={`https://image.tmdb.org/t/p/w500${film.poster_path}`} alt={film.title} width={"200"}/>): (
   <FcCamcorderPro style={{ width: '100px', height: '100px' }} />
 )}</span>
     </Popup>  </SearchResultItem>
