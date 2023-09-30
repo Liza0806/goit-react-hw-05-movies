@@ -69,6 +69,7 @@ export const ProductionCompanyList = styled.ul`
 export const ProductionCompanyCard = styled.li`
   background-color: #f5f5f5;
   border: 1px solid #ccc;
+  border-radius: 4px;
   margin: 10px;
   width: 250px;
   padding: 10px;
