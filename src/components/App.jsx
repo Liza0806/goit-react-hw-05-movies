@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router-dom";
+import { ToastContainer} from 'react-toastify';
 import Layout from "./Layout/Layout";
 import Cast from "./Cast/Cast";
 import Reviews from "./Reviews/Reviews";
@@ -10,6 +11,7 @@ const Movies = lazy(() => import('../pages/Movies/Movies'))
 const MovieDetails = lazy(() => import('../pages/MovieDetails/MovieDetails'))
 
 export const App = () => {
+   
   return (
     <div
       style={{
@@ -21,6 +23,7 @@ export const App = () => {
      color: '#010101'
       }}
     > 
+       <ToastContainer />
    
     <Routes>
       <Route path="/" element={<Layout/>}>

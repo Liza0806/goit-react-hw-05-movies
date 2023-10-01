@@ -1,22 +1,7 @@
-import axios from "axios";
 import React from "react";
 import { ColorRing } from "react-loader-spinner";
 
 
-export async function fetchData(url) {
-  try {
-    const headers = {
-      Accept: "application/json",
-      Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzZmQwOGNhMTljY2JmM2U1MjgwN2ViZmVjZDEwOGUzNiIsInN1YiI6IjY1MTJiYjFkYTkxMTdmNzY1ZDg4OTgxNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.wk5fdIqZPgG2xDOolV97Xo9axot0ymipWFnQCS9z3XQ",
-    };
-
-    const response = await axios.get(url, { headers });
-    return response.data;
-  } catch (error) {
-    console.error('Error:', error);
-    return null;
-  }
-}
 
 export const LoadingSpinner = () => {
   return (

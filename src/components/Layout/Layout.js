@@ -27,7 +27,7 @@ const Layout = () => {
       <Outlet/>
       </Suspense>
       </Main>
-      <Footer>Footer</Footer>
+      <Footer></Footer>
       </div>
       )
 }

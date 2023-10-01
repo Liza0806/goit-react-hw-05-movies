@@ -1,6 +1,6 @@
 import { Outlet, useParams, useLocation } from "react-router-dom"
 import { useState, useEffect, useRef } from "react";
-import { fetchData } from "Helpers/Helpers";
+import { fetchData } from "Helpers/Services";
 import { LoadingSpinner } from "Helpers/Helpers";
 import { BackLink, ForLinks } from "./MovieDetails.styled";
 import { 
@@ -16,11 +16,10 @@ const MovieDetails = () => {
     const backLinkLocationRef = useRef(location.state?.from ?? '/movies');
 
     useEffect(() => {
-      const url = `
-      https://api.themoviedb.org/3/movie/${movieId}`; 
+      const urlPart = `movie/${movieId}`; 
     
       const fetchMDData = async () => {
-        const data = await fetchData(url);
+        const data = await fetchData(urlPart);
         if (data) {
           setMovieData(data);  
         }

@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom"
 import { useState, useEffect } from "react";
 import { ReviewContainer, Author, Content, NoReviews } from './Reviews.styled'
-import { fetchData } from "Helpers/Helpers";
+import { fetchData } from "Helpers/Services";
 import { LoadingSpinner } from "Helpers/Helpers";
 
 
@@ -10,11 +10,11 @@ const Reviews = () => {
   
     const [reviewsData, setReviewsData] = useState(null);
     useEffect(() => {
-      const url = `https://api.themoviedb.org/3/movie/${movieId}/reviews?`;
+      const urlPart = `movie/${movieId}/reviews?`;
     
       async function fetchRevData() {
         try {
-          const data = await fetchData(url);
+          const data = await fetchData(urlPart);
           if (data) {
             setReviewsData(data.results);
           }

@@ -1,21 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import {FilmList, FilmItem, FilmLink, MovieListTitle} from "./Home.styled"
+import {FilmList, MovieListTitle} from "./Home.styled"
 import { useLocation } from 'react-router-dom';
-import { fetchData } from 'Helpers/Helpers';
+import { fetchData } from 'Helpers/Services';
 import { LoadingSpinner } from 'Helpers/Helpers';
-import { FcCamcorderPro } from 'react-icons/fc';
-import Popup from 'reactjs-popup';
+import FilmListItem from 'components/FilmListItem/FilmListItem';
 
 const HomePage = () => {
     const [data, setData] = useState([]);
     const location = useLocation(); 
 
 useEffect(() => {
-  const url = `
-  https://api.themoviedb.org/3/trending/all/day?language=en-US`;
+  const urlPart = `trending/all/day?language=en-US`;
 
   const fetchHomeData = async () => {
-    const data = await fetchData(url);
+    const data = await fetchData(urlPart);
     if (data) {
       const responseData = data.results;
       setData(responseData); 
@@ -32,29 +30,12 @@ useEffect(() => {
       return (
         <FilmList>
           <MovieListTitle>Trending Today</MovieListTitle>
-          {data.map((film) => (
-            <FilmItem key={film.id}>
-               <Popup
-            trigger={ open => (
-              <FilmLink to={`${film.id}`} state={{ from: location }} className='list'>  {film.title ?? film.name}</FilmLink>
-            )}
-            position="right center"
-            on={['hover', 'focus']}
-            closeOnDocumentClick
-          >
-              <span 
-              style={{ position: "fixed",
-                       top: "50%", 
-                       left: "50%", 
-                       transform: "translate(-50%, -50%)",
-                       zIndex: 9999, 
-                      }}> 
-    {film.poster_path? (<img src={`https://image.tmdb.org/t/p/w500${film.poster_path}`} alt={film.title ?? film.name} width={"300"}/>): (
-  <FcCamcorderPro style={{ width: '100px', height: '100px' }} />
-)}</span>
-          </Popup>   
-            </FilmItem>
-          ))}
+
+          <div>
+    {data && data.map((film) => (
+      <FilmListItem key={film.id} film={film} location={location} />
+    ))}
+  </div>
         </FilmList>
       );
     };

@@ -1,12 +1,10 @@
-import { Link, useLocation, useSearchParams} from "react-router-dom"
+import { useLocation, useSearchParams} from "react-router-dom"
 import { useState, useEffect } from "react";
-import {SearchContainer, SearchResultList, SearchResultItem} from './Movies.styled'
-import { fetchData } from "Helpers/Helpers";
+import {SearchContainer, SearchResultList } from './Movies.styled'
+import { fetchData } from "Helpers/Services";
 import { LoadingSpinner } from "Helpers/Helpers";
 import {DebounceInput} from 'react-debounce-input';
-import { FcCamcorderPro } from 'react-icons/fc';
-import Popup from 'reactjs-popup';
-
+import FilmListItem from "components/FilmListItem/FilmListItem";
 
 const Movies =() => {
 
@@ -24,11 +22,10 @@ const UpdateQueryString = (evt) =>{
 }
 
     useEffect(() => {
-      const url = `
-      https://api.themoviedb.org/3/search/movie?query=${movieTitle}`;
+      const urlPart = `search/movie?query=${movieTitle}`;
     
       const fetchMovieData = async () => {
-        const data = await fetchData(url);
+        const data = await fetchData(urlPart);
         if (data) {
           setMovieData(data.results); 
         }
@@ -38,7 +35,6 @@ const UpdateQueryString = (evt) =>{
     }, [movieTitle]);
 
       if (!movieData) {
-     
         return <LoadingSpinner/>
       }
 
@@ -56,25 +52,11 @@ const UpdateQueryString = (evt) =>{
         debounceTimeout={300} 
         onChange={UpdateQueryString}/>
 <SearchResultList>
-        {movieData && movieData.map((film) => (
-     
-      <SearchResultItem key={film.id}>   
-      <Popup trigger={ open => ( <Link to={`/${film.id}`} state ={{ from: location}} key={film.id}>{film.title}</Link> )}
-      position="right center"
-      on={['hover', 'focus']}
-      closeOnDocumentClick
-    >
-      <span  style={{ position: "fixed",
-                       top: "50%", 
-                       left: "50%", 
-                       transform: "translate(-50%, -50%)",
-                       zIndex: 9999, 
-                     }}> 
-    {film.poster_path? (<img src={`https://image.tmdb.org/t/p/w500${film.poster_path}`} alt={film.title} width={"300"}/>): (
-  <FcCamcorderPro style={{ width: '100px', height: '100px' }} />
-)}</span>
-    </Popup>  </SearchResultItem>
+       <div>
+    {movieData && movieData.map((film) => (
+      <FilmListItem key={film.id} film={film} location={location} />
     ))}
+  </div>
 </SearchResultList>
 </SearchContainer>
     )

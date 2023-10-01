@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom"
 import { useState, useEffect } from "react";
 import {CastList,  CastCard} from "./Cast.styled";
 import { CiImageOn } from 'react-icons/ci'
-import { fetchData } from "Helpers/Helpers";
+import { fetchData } from "Helpers/Services";
 import { LoadingSpinner } from "Helpers/Helpers";
 
 
@@ -11,11 +11,10 @@ const Cast = () => {
     const [castData, setCastData] = useState(null);
 
     useEffect(() => {
-      const url = `
-        https://api.themoviedb.org/3/movie/${movieId}/credits?`;
+      const urlPart = `movie/${movieId}/credits?`;
   
       const fetchCastData = async () => {
-        const data = await fetchData(url);
+        const data = await fetchData(urlPart);
         if (data) {
           setCastData(data.cast);
         }
